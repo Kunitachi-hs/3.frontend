@@ -29,6 +29,11 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    ['@nuxtjs/google-fonts',{
+      families: {'Material+Icons': true},
+      download: true,
+      inject: true
+    }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
