@@ -1,0 +1,48 @@
+name: Generate static page & Deploy to XServer
+
+on:
+  repository_dispatch:
+    types: [contents, lists, index]
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    enviroment:
+      name: microCMS
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: build
+        run: |
+          npm install
+          npm run generate
+      - name: save dist
+        uses: actions/upload-artifact@v2
+        if: !failure()
+        with:
+          name: dist
+          path: ./dist
+  deploy:
+    runs-on: ubuntu-latest
+    enviroment:
+      name: Xserver
+      url: https://fes.kunikoust.jp
+    steps:
+      - name: load dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+      - name: save ssh key
+        run: |
+          echo "$Xserver_SSH" > key
+          chmod 600 key
+        env:
+          Xserver_SSH: ${{ secrets.Xserver_SSH }}
+          RSYNC_SCRIPT: ${{ secrets.RSYNC_SCRIPT }}
+      - name: deploy
+        run: time RSYNC_SCRIPT
