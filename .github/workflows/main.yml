@@ -48,4 +48,4 @@ jobs:
       - name: deploy
         env:
           XSERVER_PATH: ${{ secrets.XSERVER_PATH }}
-        run: time rsync -avnz --delete --exclude-from=.rsyncignore -e "ssh -i github -p 10022" ./dist/* "$XSERVER_PATH"
+        run: time rsync -avnz --delete --exclude .htaccess --exclude .env -e "ssh -i github -p 10022" ./dist/* "$XSERVER_PATH"
