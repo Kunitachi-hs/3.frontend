@@ -23,7 +23,6 @@ jobs:
           npm run generate
       - name: save dist
         uses: actions/upload-artifact@v2
-        if: !failure()
         with:
           name: dist
           path: ./dist
