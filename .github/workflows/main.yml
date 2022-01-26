@@ -40,10 +40,12 @@ jobs:
         with:
           name: dist
       - name: save ssh key
+        env:
+          Xserver_SSH: ${{ secrets.Xserver_SSH }}
         run: |
           echo "$Xserver_SSH" > key
           chmod 600 key
-        env:
-          Xserver_SSH: ${{ secrets.Xserver_SSH }}
       - name: deploy
-        run: time ${{ secrets.RSYNC_SCRIPT }}
+        env:
+          XSERVER_PATH: ${{ secrets.XSERVER_PATH }}
+        run: time rsync -avnz --delete --exclude-from=.rsyncignore -e "ssh -i github -p 10022" ./dist/* "$XSERVER_PATH"
