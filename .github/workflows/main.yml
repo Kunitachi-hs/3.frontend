@@ -17,10 +17,12 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+      - run: npm install
       - name: build
-        run: |
-          npm install
-          npm run generate
+        run: npm run generate
+        env:
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+          NODE_ENV: production
       - name: save dist
         uses: actions/upload-artifact@v2
         with:
