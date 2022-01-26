@@ -28,7 +28,7 @@
 <script>
 import axios from 'axios'
 export default {
-  async asyncData() {
+  async asyncData({$config}) {
     const { data } = await axios.get(
       'https://fes3.microcms.io/api/v1/lists?depth=0',
       {
