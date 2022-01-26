@@ -47,8 +47,9 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$Xserver_SSH" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+      - run: ls
       - name: deploy
         env:
           XSERVER_PATH: ${{ secrets.XSERVER_PATH }}
           XSERVER_PORT: ${{ secrets.XSERVER_PORT }}
-        run: time rsync -avhnz --delete --exclude .htaccess --exclude .env -e "ssh -i ~/.ssh/id_ed25519 -p $XSERVER_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" ./dist/* $XSERVER_PATH
+        run: time rsync -avhnz --delete --exclude .htaccess --exclude .env -e "ssh -i ~/.ssh/id_ed25519 -p $XSERVER_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" . $XSERVER_PATH
