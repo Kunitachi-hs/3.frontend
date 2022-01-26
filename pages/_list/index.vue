@@ -1,22 +1,8 @@
 <template>
 <main>
-  <h1>TOP</h1>
-  <article class="large">
-    <h2>リンク一覧</h2>
-    <p>
-      <p href="/admission">入場制限システム</p>
-    </p>
-  </article>
-  <article class="middle">
-    <img src="~/assets/img/top/3年演劇.jpg" alt="">
-    <h2>3年演劇</h2>
-  </article>
-  <article class="middle">
-    <img src="~/assets/img/top/後夜祭.png" alt="">
-    <h2>後夜祭</h2>
-  </article>
-  <article class="middle" v-for="content in contents" :key="content.id">
-    <nuxt-link :to="`/${content.id}`">
+  <h1>{{title}}</h1>
+  <article class="img middle" v-for="content in contents" :key="content.id">
+    <nuxt-link :to="`/${id}/${content.id}`">
       <img v-if="content.thumbnail" :src="`${content.thumbnail.url}`" alt="">
       <h2>{{content.title}}</h2>
       <p>{{content.description}}</p>
@@ -28,9 +14,9 @@
 <script>
 import axios from 'axios'
 export default {
-  async asyncData() {
+  async asyncData({params}) {
     const { data } = await axios.get(
-      'https://fes3.microcms.io/api/v1/lists?depth=0',
+      `https://fes3.microcms.io/api/v1/lists/${params.list}`,
       {
         headers: { 'X-MICROCMS-API-KEY': process.env.MICROCMS_API_KEY }
       }
