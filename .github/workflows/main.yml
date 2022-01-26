@@ -17,6 +17,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+          cache: 'npm'
       - run: npm install
       - name: build
         run: npm run generate
@@ -50,4 +51,4 @@ jobs:
         env:
           XSERVER_PATH: ${{ secrets.XSERVER_PATH }}
           XSERVER_PORT: ${{ secrets.XSERVER_PORT }}
-        run: time rsync -avhnz --delete --exclude .htaccess --exclude .env -e "ssh -i key -p $XSERVER_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" ./dist/* $XSERVER_PATH
+        run: time rsync -avhnz --delete --exclude .htaccess --exclude .env -e "ssh -i ~/.ssh/id_ed25519 -p $XSERVER_PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" ./dist/* $XSERVER_PATH
