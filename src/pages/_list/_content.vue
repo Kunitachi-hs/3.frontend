@@ -12,7 +12,7 @@ export default {
     const { data } = await axios.get(
       `https://fes3.microcms.io/api/v1/contents/${params.content}`,
       {
-        headers: { 'X-MICROCMS-API-KEY': process.env.MICROCMS_API_KEY }
+        headers: { 'X-MICROCMS-API-KEY': $config.microcmsApiKey }
       }
     )
     return data

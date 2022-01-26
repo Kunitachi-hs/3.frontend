@@ -1,4 +1,13 @@
+const { MICROCMS_API_KEY } = process.env;
+
 export default {
+  privateRuntimeConfig: {
+    microcmsApiKey: MICROCMS_API_KEY
+  },
+  publicRuntimeConfig: {
+    microcmsApiKey: process.env.NODE_ENV !== 'production' ? MICROCMS_API_KEY : undefined
+  },
+
   srcDir: 'src/',
 
   // Target: https://go.nuxtjs.dev/config-target
