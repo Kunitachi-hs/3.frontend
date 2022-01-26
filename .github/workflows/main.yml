@@ -45,6 +45,5 @@ jobs:
           chmod 600 key
         env:
           Xserver_SSH: ${{ secrets.Xserver_SSH }}
-          RSYNC_SCRIPT: ${{ secrets.RSYNC_SCRIPT }}
       - name: deploy
-        run: time $RSYNC_SCRIPT
+        run: time ${{ secrets.RSYNC_SCRIPT }}
