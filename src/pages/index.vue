@@ -5,6 +5,7 @@
     <h2>リンク一覧</h2>
     <p>
       <nuxt-link to="/signup">登録</nuxt-link>
+      <nuxt-link to="/toiTest">TOIテスト</nuxt-link>
     </p>
   </article>
   <article class="middle">
