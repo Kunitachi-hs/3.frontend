@@ -57,6 +57,9 @@ body{
   --sfv: #E7E0EC;
   --on-sfv: #49454F;
   --ol: #79747E;
+
+  --on-sf-5p: linear-gradient(#1C1B1F0d, #1C1B1F0d);
+  --on-bg-16p: linear-gradient(#1C1B1F29, #1C1B1F29);
 }
 @media (prefers-color-scheme: dark) {
 :root{
