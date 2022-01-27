@@ -4,7 +4,7 @@
   <article class="large">
     <h2>リンク一覧</h2>
     <p>
-      <p href="/admission">入場制限システム</p>
+      <nuxt-link to="/signup">登録</nuxt-link>
     </p>
   </article>
   <article class="middle">
