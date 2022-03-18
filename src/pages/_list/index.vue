@@ -73,4 +73,12 @@ article.large{
 article.middle{
   grid-column: span 2;
 }
+
+@media screen and (max-width:1000px){
+  main{
+    gap: 20px 0;
+    grid-template-columns: [left] 1fr;
+    grid-template-rows: [title] 70px [top] auto [bottom];
+  }
+}
 </style>
