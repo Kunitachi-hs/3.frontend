@@ -22,6 +22,11 @@ header {
 main{
   flex: 2;
 }
+@media screen and (max-width:1000px){
+  div.container {
+    flex-direction: column;
+  }
+}
 </style>
 
 <style>

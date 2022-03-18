@@ -1,4 +1,4 @@
-<template>
+<!--template>
     <h1>TOI 受付</h1>
     <div id="QRcode">
     <button onclick="startCamera();" id="startBtn" class="cameraBtn">カメラ起動</button>
@@ -302,4 +302,4 @@ function reset(){
         margin-left: auto;
         background-color: #fff;
     }
-    </style>
+    </style-->
