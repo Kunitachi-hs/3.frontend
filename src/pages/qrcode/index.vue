@@ -1,6 +1,5 @@
 <template>
 <main>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-qrcode-reader@2.0.3/dist/vue-qrcode-reader.css">
   <h1>QRこーどりーだー</h1>
   <div>
     <p>
@@ -17,9 +16,8 @@
 </main>
 </template>
 
-<script src="https://cdn.jsdelivr.net/npm/vue-qrcode-reader@2.0.3/dist/vue-qrcode-reader.browser.js"></script>
 <script>
-import { QrcodeStream } from '../../../../src'
+import { QrcodeStream } from 'vue-qrcode-reader@2.0.3'
 
 export default {
 
