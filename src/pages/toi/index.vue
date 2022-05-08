@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { QrcodeStream } from '../../node_modules/vue-qrcode-reader'
+import { QrcodeStream } from 'vue-qrcode-reader'
 
 export default {
     components: { QrcodeStream },
