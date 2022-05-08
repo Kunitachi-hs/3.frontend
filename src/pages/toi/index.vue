@@ -155,6 +155,7 @@ export default {
       margin: 10px 40px;
       font-size: 40px;
       text-align: center;
+      color: var(--on-sfv);
     }
 
     /*----- QRコード　----*/
@@ -206,30 +207,30 @@ export default {
     }
     #preBtn{
       display: block;
-      color: #0029dd;
+      color: var(--bl);
       font-size: 20px;
       border: 0;
       outline: 0;
       padding: 5px 10px;
       margin-top: 20px;
       margin-left: auto;
-      background-color: #fff;
+      background-color: var(--bg);
     }
 
     /*----- 共通　----*/
-    .contents{
-
+    input::placeholder{
+      color: skyblue;
     }
     .chBtn{
       display: block;
-      color: #000;
+      color: var(--on-sfv);
       font-size: 15px;
       border: none;
       outline: none;
       padding: 10px, 20px;
       margin-top: 30px;
       margin-left: auto;
-      background-color: #fff;
+      background-color: var(--bg);
     }
     .hidden{
       display: none;
