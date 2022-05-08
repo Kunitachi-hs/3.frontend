@@ -1,20 +1,21 @@
 <template>
     <main>
         <h1>TOI受付</h1>
-        <div id="Qrcode"><!-- QRコードリーダーを使う場合 -->
-            <button @click="turnCameraOn()">カメラ起動</button>
-            <button @click="turnCameraOff()">カメラ停止</button>
-            <p v-if="cameraError">カメラに接続できません</p>
+        <div id="Qrcode" class="contents" v-bind:class="{ 'hidden': !qrMode }"><!-- QRコードリーダーを使う場合 -->
+            <button @click="turnCameraOn()" class="cameraBtn">カメラ起動</button>
+            <button @click="turnCameraOff()" class="cameraBtn">カメラ停止</button>
+            <p class="qrResult">{{ result }}</p>
+            <p v-if="cameraPre">カメラに接続中</p>
+            <p v-if="cameraError">カメラに接続できませんでした</p>
             <p>{{ error }}</p>
-            <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit"></qrcode-stream>
-            <div class="manual"></div>
+            <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit" class="qrstream" v-bind:class="{ 'blur': beBlur }"></qrcode-stream>
             <button class="chBtn" @click="manChange()">手動で入力する</button>
         </div>
-        <div id="Manual" hidden><!-- 手動で入力する場合 -->
+        <div id="Manual" class="contents" v-bind:class="{ 'hidden': qrMode }"><!-- 手動で入力する場合 -->
             <form>
                 <input type="number" name="inputNum" id="inputNum" placeholder="４桁番号">
                 <p id="notNumMsg" hidden>正しく学籍番号を入力してください。</p>
-                <button type="button" id="preBtn">送信</button>
+                <button type="button" id="preBtn" @click="prep()">送信</button>
             </form>
             <button type="button" class="chBtn" @click="qrChange()">QRコードを読み取る</button>
         </div>
@@ -32,66 +33,205 @@ export default {
       isValid: undefined,
       camera: 'auto',
       result: null,
-      cameraError: true,
+      cameraPre: true,
+      cameraError: false,
       error: '',
+      qrMode: true,
+      beBlur: false,
+      sendData : {
+        kuninum: null,
+      },
     }
   },
 
   methods: {
-
+    //-------------------------------------------------------------------------------------
+    //qrcode関連
     async onInit (promise) {
       try {
         await promise
+        this.cameraPre = false;
       } catch (error) {
-        if (error.name === 'NotAllowedError') {
-          this.error = "ERROR: you need to grant camera access permission"
-        } else if (error.name === 'NotFoundError') {
-          this.error = "ERROR: no camera on this device"
-        } else if (error.name === 'NotSupportedError') {
-          this.error = "ERROR: secure context required (HTTPS, localhost)"
-        } else if (error.name === 'NotReadableError') {
-          this.error = "ERROR: is the camera already in use?"
-        } else if (error.name === 'OverconstrainedError') {
-          this.error = "ERROR: installed cameras are not suitable"
-        } else if (error.name === 'StreamApiNotSupportedError') {
-          this.error = "ERROR: Stream API is not supported in this browser"
-        } else if (error.name === 'InsecureContextError') {
-          this.error = 'ERROR: Camera access is only permitted in secure context. Use HTTPS or localhost rather than HTTP.';
-        } else {
-          this.error = `ERROR: Camera error (${error.name})`;
-        }
+        this.cameraPre = false;
+        this.cameraError = true;
+        this.camera = 'off';
       }
     },
 
     resetValidationState () {
+        this.cameraPre = false;
         this.isValid = undefined
     },
 
     async onDecode (content) {
         this.result = content;
-        this.turnCameraOff();
-        this.turnCameraOn;
+        this.sendData.kuninum = content;
+        console.log(this.result);
+        this.prep();
     },
 
     turnCameraOn () {
-      this.camera = 'auto'
+      this.camera = 'auto';
+      this.beBlur = false;
     },
 
     turnCameraOff () {
-      this.camera = 'off'
+      this.camera = 'off';
+      this.beBlur = true;
     },
 
     timeout (ms) {
       return new Promise(resolve => {
         window.setTimeout(resolve, ms)
       })
+    },
+    //
+    //-------------------------------------------------------------------------------------
+    //その他
+    manChange(){
+      this.qrMode = false;
+      this.turnCameraOff();
+    },
+    qrChange(){
+      this.qrMode = true;
+      this.turnCameraOn();
+    },
+
+    //
+    //-------------------------------------------------------------------------------------
+    //検証・送信
+    
+    prep(){
+        this.sendData.kuninum = document.getElementById('inputNum').value;
+        console.log(this.sendData.kuninum);
+      if(this.sendData.kuninum.match(/^[^\W0IOl]{3}[ -]?[^\W0IOl]{1}[ -]?[^\W0IOl]{1}$/)){
+        this.sendFun();
+      }else{
+        alert('くにナンバーの形式に一致しませんでした')
+      }
+    },
+    sendFun (){
+      console.log(this.sendData);
+      console.log(JSON.stringify(this.sendData));
+      //try{
+      //  let data = await fetch('/staff/TOI_S', {
+      //    method: "POST",
+      //    headers: {
+      //      "Content-Type": "application/json"
+      //    },
+      //    body: JSON.stringify(sendData)
+      //  })
+      //  .then(response => response.json());
+      //  console.log(data);
+      //  if(data.success){
+      //    alert(`受付処理が完了しました。\n４桁番号：${sendData.kuninum}`)
+      //  } else if (data.error === "Server Error") {
+      //    alert("サーバーでエラーが発生しました。もう一度お願いします。");
+      //  } else if(data.error === "Invalid JSON") {
+      //    alert("データの送信形式が違います。何度もこの表示が出る場合は担当者にお知らせください。");
+      //  } else if(data.error === "Invalid Kuninum") {
+      //    alert("学籍番号の形式が違います。もう一度確認してください。");
+      //  }else{
+      //    alert("予期しないエラーです。")
+      //  }
+      //} catch (err){
+      //  alert("サーバーとの通信に失敗しました。再度試してください");
+      //}
+      //reset();
+    },
+    reset(){
     }
     }
 }
 </script>
 
 <style scoped>
-    qrcode-stream{
-        width: 300;
+  /*----- 全体　----*/
+    body{
+      max-width: 500px;
+      margin: 30px auto;
+    }
+    h1 {
+      margin: 10px 40px;
+      font-size: 40px;
+      text-align: center;
+    }
+
+    /*----- QRコード　----*/
+      #Qrcode{
+        width: 85vw;
+        max-width: 800px;
+        margin: auto;
+        margin-top: 50px;
+      }
+        .qrstream{
+          width: 85%;
+          max-width: 700px;
+        }
+      .cameraBtn{
+        margin: 10px 0 30px auto;
+        padding: 5px 15px;
+        font-size: 10px;
+        color: #fff;
+        border: 0;
+        border-radius: 10px;
+        background-color: rgb(144, 200, 226);
+      }
+      .cameraBtn:hover{background-color: rgb(112, 184, 218);}
+      .blur{
+        filter: blur(8px);
+      }
+
+    /*----- 手動　----*/
+    form{
+      margin: auto;
+    }
+    #Manual{
+      width: 85%;
+      max-width: 800px;
+      margin: auto;
+      margin-top: 50px;
+    }
+    #inputNum{
+      display: block;
+      font-size: 30px;
+      text-align: center;
+      width: 90%;
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      margin: auto;
+      background-color: rgb(234, 241, 255);
+    }
+    #preBtn{
+      display: block;
+      color: #0029dd;
+      font-size: 20px;
+      border: 0;
+      outline: 0;
+      padding: 5px 10px;
+      margin-top: 20px;
+      margin-left: auto;
+      background-color: #fff;
+    }
+
+    /*----- 共通　----*/
+    .contents{
+
+    }
+    .chBtn{
+      display: block;
+      color: #000;
+      font-size: 15px;
+      border: none;
+      outline: none;
+      padding: 10px, 20px;
+      margin-top: 30px;
+      margin-left: auto;
+      background-color: #fff;
+    }
+    .hidden{
+      display: none;
     }
 </style>
