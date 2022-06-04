@@ -4,7 +4,7 @@
         <h1>国高祭</h1>
         <nav>
             <ul>
-                <li class="active"><a href="">HOME</a></li>
+                <li><nuxt-link to="/">HOME</nuxt-link></li>
                 <li><a href="">1,2年展示</a></li>
                 <li><a href="">3年演劇</a></li>
                 <li><a href="">部活/同好会</a></li>
@@ -34,7 +34,7 @@ li{
     line-height: 50px;
     border-radius: 25px;
 }
-li.active{
+li.a:hover{
     background: var(--sfv);
 }
 li:hover{

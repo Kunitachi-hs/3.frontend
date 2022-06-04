@@ -38,6 +38,7 @@ body{
 }
 
 :root{
+  --bl: #0029dd;
   --p: #6750A4;
   --on-p: #FFFFFF;
   --p-c: #EADDFF;
@@ -68,6 +69,7 @@ body{
 }
 @media (prefers-color-scheme: dark) {
 :root{
+  --bl: skyblue;
   --p: #D0BCFF;
   --on-p: #381E72;
   --p-c: #4F378B;

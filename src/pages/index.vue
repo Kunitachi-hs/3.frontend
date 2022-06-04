@@ -5,6 +5,7 @@
     <h2>リンク一覧</h2>
     <p><nuxt-link to="/signup">登録</nuxt-link></p>
     <p><nuxt-link to="/qrcode">QRコードリーダー</nuxt-link></p>
+    <p><nuxt-link to="/toi">TOI</nuxt-link></p>
   </article>
   <article class="middle">
     <img src="~/assets/img/top/3年演劇.jpg" alt="">
