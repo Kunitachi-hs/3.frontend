@@ -94,6 +94,7 @@ export default {
     },
     qrChange(){
       this.qrMode = true;
+      this.timeout(100);
       this.turnCameraOff();
       this.timeout(2500);
       this.turnCameraOn();
