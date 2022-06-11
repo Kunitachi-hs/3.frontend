@@ -89,14 +89,11 @@ export default {
     //-------------------------------------------------------------------------------------
     //その他
     manChange(){
-      this.turnCameraOff();
       this.qrMode = false;
+      this.turnCameraOff();
     },
     qrChange(){
       this.qrMode = true;
-      this.timeout(100);
-      this.turnCameraOff();
-      this.timeout(2500);
       this.turnCameraOn();
     },
 
