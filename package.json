@@ -12,7 +12,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "axios": "^0.27.2",
     "core-js": "^3.22.8",
-    "nuxt": "^2.15.7",
+    "nuxt": "^3.2.2",
     "vue-qrcode-reader": "^3.1.0",
     "zxcvbn": "^4.4.2"
   },
